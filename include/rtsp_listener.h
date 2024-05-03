@@ -10,6 +10,7 @@
 #include <libavfilter/avfilter.h>
 #include <libavutil/log.h>
 #include <signal.h>
+#include <unistd.h>
 
 #include "error-handler.h"
 

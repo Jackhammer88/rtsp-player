@@ -8,6 +8,8 @@
 #include <SDL.h>
 #include <libavcodec/avcodec.h>
 #include <signal.h>
+#include <pthread.h>
+#include <unistd.h>
 #include "error-handler.h"
 
 void close_handler();

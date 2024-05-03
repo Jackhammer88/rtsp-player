@@ -3,9 +3,6 @@
 //
 
 #include "sdl-player.h"
-#include "error-handler.h"
-#include <pthread.h>
-#include <unistd.h>
 
 #define CLIP(x, min, max) (((x) < (min)) ? (min) : (((x) > (max)) ? (max) : (x)))
 
@@ -40,7 +37,7 @@ void init_sdl(int width, int height) {
         fatal_error(errorDescription, SDL_INIT_ERROR);
     }
 
-    screen = SDL_SetVideoMode(width, height, 32, SDL_NOFRAME | SDL_SWSURFACE);
+    screen = SDL_SetVideoMode(width, height, 32, SDL_SWSURFACE);
     if (!screen) {
         char errorDescription[250];
         sprintf(errorDescription, "Не удалось создать окно: %s\n", SDL_GetError());
@@ -48,13 +45,13 @@ void init_sdl(int width, int height) {
     }
 
     if (pthread_create(&rtsp_thread, NULL, sdl_event_loop, NULL) != 0) {
-        fatal_error("Ошибка при создании потока для отслеживания события закрытия окна.", 1);
+        fatal_error("Ошибка при создании потока для отслеживания события закрытия окна.", SDL_LOOP_CREATE_ERROR);
     }
 }
 
 void render_frame(const AVFrame* frame) {
     if (!screen) {
-        fatal_error("SDL surface is not initialized. Cannot render frame.\n", 1);
+        fatal_error("SDL surface не инициализирована. Невозможно отрисовать кадр.\n", SDL_INIT_ERROR);
     }
 
     // Предположим, что кадр в формате YUV420p

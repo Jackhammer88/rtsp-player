@@ -2,7 +2,6 @@
 // Created by jackhammer on 03.05.24.
 //
 
-#include <unistd.h>
 #include "rtsp_listener.h"
 
 AVFormatContext* formatContext;
